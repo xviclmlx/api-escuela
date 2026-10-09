@@ -1,8 +1,6 @@
 const express = require('express');
-const resources = require('./config/resources');
 const { createService } = require('./services/crudService');
 const createCrudRouter = require('./routes/crudRouter');
-const reportesRouter = require('./routes/reportes');
 const pkg = require('../package.json');
 
 // 👇 Cambia este mensaje en la demo en vivo para evidenciar el despliegue automático
@@ -19,16 +17,14 @@ app.get('/api/version', (req, res) => {
   res.json({ version: pkg.version, mensaje: MENSAJE, commit: process.env.GIT_SHA || 'local' });
 });
 
-// --- Servicios y rutas CRUD: 10 recursos x 6 = 60 endpoints ---
-const services = {};
-for (const [name, rules] of Object.entries(resources)) {
-  services[name] = createService(name, rules);
-}
-// Relaciones y reportes (14 endpoints); van antes del CRUD para no chocar con /:id
-app.use('/api', reportesRouter(services));
-for (const name of Object.keys(resources)) {
-  app.use(`/api/${name}`, createCrudRouter(services[name]));
-}
+// --- CRUD de alumnos (6 endpoints) ---
+// required: campos obligatorios en POST/PUT; numbers: deben ser numéricos; unique: no se repiten
+const alumnos = createService('alumnos', {
+  required: ['nombre', 'matricula', 'email'],
+  numbers: ['semestre'],
+  unique: ['matricula', 'email']
+});
+app.use('/api/alumnos', createCrudRouter(alumnos));
 
 // Índice: lista todos los endpoints registrados
 function listEndpoints() {

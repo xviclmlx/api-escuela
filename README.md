@@ -1,6 +1,6 @@
 # 🎓 API Escuela — Pipeline CI/CD con Docker, GitHub Actions y AWS EC2
 
-API REST de gestión escolar (Node.js + Express) con **77 endpoints**, **130 pruebas automatizadas** (Jest + Supertest) y **cobertura >90%**, empaquetada en Docker y desplegada automáticamente en AWS EC2 en cada `git push` a `main`.
+API REST de gestión escolar (Node.js + Express) con **9 endpoints**, pruebas automatizadas (Jest + Supertest) y **cobertura >70%**, empaquetada en Docker y desplegada automáticamente en AWS EC2 en cada `git push` a `main`.
 
 ## 🏗️ Arquitectura
 
@@ -30,9 +30,8 @@ Si las pruebas fallan o la cobertura baja del 70%, el pipeline se detiene y **no
 ├── src/
 │   ├── app.js                   # Configuración de Express y rutas
 │   ├── server.js                # Punto de entrada (puerto 3000)
-│   ├── config/resources.js      # Reglas de validación de los 10 recursos
 │   ├── data/                    # Datos semilla y almacén en memoria
-│   ├── routes/                  # Router CRUD genérico y reportes
+│   ├── routes/crudRouter.js     # Rutas CRUD
 │   └── services/crudService.js  # Lógica de negocio y validaciones
 ├── tests/                       # Pruebas Jest + Supertest
 ├── Dockerfile
@@ -40,24 +39,19 @@ Si las pruebas fallan o la cobertura baja del 70%, el pipeline se detiene y **no
 └── README.md
 ```
 
-## 🔌 Endpoints (77)
-
-**Generales:** `GET /api`, `GET /api/health`, `GET /api/version`
-
-**CRUD (10 recursos × 6 = 60):** `carreras`, `alumnos`, `profesores`, `materias`, `aulas`, `grupos`, `horarios`, `inscripciones`, `calificaciones`, `asistencias`
+## 🔌 Endpoints (9)
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| GET | `/api/{recurso}` | Lista (filtros `?campo=valor`, paginación `?limit=&page=`) |
-| GET | `/api/{recurso}/:id` | Obtener por id |
-| POST | `/api/{recurso}` | Crear |
-| PUT | `/api/{recurso}/:id` | Reemplazar |
-| PATCH | `/api/{recurso}/:id` | Actualizar parcialmente |
-| DELETE | `/api/{recurso}/:id` | Eliminar |
-
-**Relaciones y reportes (14):** `/api/alumnos/:id/calificaciones`, `/api/alumnos/:id/promedio`, `/api/alumnos/:id/inscripciones`, `/api/alumnos/:id/asistencias`, `/api/profesores/:id/grupos`, `/api/materias/:id/grupos`, `/api/grupos/:id/alumnos`, `/api/grupos/:id/horarios`, `/api/carreras/:id/alumnos`, `/api/carreras/:id/materias`, `/api/aulas/:id/horarios`, `/api/stats`, `/api/reportes/reprobados`, `POST /api/reset`
-
-`GET /api` devuelve la lista completa generada automáticamente.
+| GET | `/api` | Lista todos los endpoints |
+| GET | `/api/health` | Estado de la API |
+| GET | `/api/version` | Versión, mensaje y hash del commit desplegado |
+| GET | `/api/alumnos` | Lista (filtros `?campo=valor`, paginación `?limit=&page=`) |
+| GET | `/api/alumnos/:id` | Obtener por id |
+| POST | `/api/alumnos` | Crear (requiere `nombre`, `matricula`, `email`) |
+| PUT | `/api/alumnos/:id` | Reemplazar |
+| PATCH | `/api/alumnos/:id` | Actualizar parcialmente |
+| DELETE | `/api/alumnos/:id` | Eliminar |
 
 ## 💻 Comandos locales
 

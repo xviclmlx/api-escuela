@@ -15,10 +15,10 @@ describe('Endpoints generales', () => {
     expect(res.body).toHaveProperty('version');
   });
 
-  test('GET /api lista al menos 60 endpoints', async () => {
+  test('GET /api lista al menos 6 endpoints', async () => {
     const res = await request(app).get('/api');
     expect(res.status).toBe(200);
-    expect(res.body.total).toBeGreaterThanOrEqual(60);
+    expect(res.body.total).toBeGreaterThanOrEqual(6);
     expect(res.body.endpoints).toContain('GET /api/alumnos/:id');
   });
 

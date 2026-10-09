@@ -22,16 +22,6 @@ function createService(name, rules = {}) {
         throw new HttpError(400, `El campo ${f} debe ser numérico`);
       }
     }
-    for (const [f, [min, max]] of Object.entries(rules.range || {})) {
-      if (data[f] !== undefined && (data[f] < min || data[f] > max)) {
-        throw new HttpError(400, `El campo ${f} debe estar entre ${min} y ${max}`);
-      }
-    }
-    for (const [f, target] of Object.entries(rules.refs || {})) {
-      if (data[f] !== undefined && !store.collection(target).some((x) => x.id === data[f])) {
-        throw new HttpError(400, `${f}=${data[f]} no existe en ${target}`);
-      }
-    }
     for (const f of rules.unique || []) {
       if (data[f] !== undefined && col().some((x) => x[f] === data[f] && x.id !== currentId)) {
         throw new HttpError(409, `Ya existe un registro con ${f}=${data[f]}`);
