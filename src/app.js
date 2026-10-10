@@ -11,7 +11,7 @@ app.use(express.json());
 
 // --- Endpoints generales (3) ---
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', uptime: process.uptime(), timestamp: new Date().toISOString() });
+  res.json({ status: 'ok2', uptime: process.uptime(), timestamp: new Date().toISOString() });
 });
 app.get('/api/version', (req, res) => {
   res.json({ version: pkg.version, mensaje: MENSAJE, commit: process.env.GIT_SHA || 'local' });
