@@ -4,7 +4,7 @@ const createCrudRouter = require('./routes/crudRouter');
 const pkg = require('../package.json');
 
 // 👇 Cambia este mensaje en la demo en vivo para evidenciar el despliegue automático
-const MENSAJE = 'API Escuela desplegada con CI/CD 🚀 v2';
+const MENSAJE = 'API Escuela desplegada con CI/CD 🚀 v3';
 
 const app = express();
 app.use(express.json());
